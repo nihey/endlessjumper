@@ -1,0 +1,28 @@
+{
+  "name": "endlessjumper",
+  "version": "0.0.0",
+  "description": "Web version of Endless Jumper game",
+  "main": "js/jumper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nihey/endlessjumper.git"
+  },
+  "keywords": [
+    "jumper",
+    "game",
+    "javascript",
+    "endless"
+  ],
+  "author": "Nihey Takizawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nihey/endlessjumper/issues"
+  },
+  "homepage": "https://github.com/nihey/endlessjumper",
+  "devDependencies": {
+    "webpack": "^1.8.11"
+  }
+}
