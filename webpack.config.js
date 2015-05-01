@@ -1,7 +1,8 @@
-var webpack = require('webpack');
+var webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
-  entry: './js/jumper.js',
+  entry: './js/main.js',
   devtool: ['source-map'],
 
   module: {
@@ -11,7 +12,7 @@ module.exports = {
   },
 
   resolve: {
-    root: __dirname,
+    root: path.join(__dirname, 'js'),
     extensions: ['', '.js'],
   },
 

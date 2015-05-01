@@ -1,3 +1,5 @@
+import {Jumper} from 'entities';
+
 $(document).ready(function() {
   var canvas = document.getElementById('canvas');
 
@@ -8,19 +10,24 @@ $(document).ready(function() {
   onResize();
   $(window).resize(onResize);
 
-  var jumper = new Sprite({
+  var jumper = new Jumper({
     canvas: canvas,
     image: document.getElementById('jumper'),
     rows: 4,
     columns: 3,
     rowIndex: 2,
-    columnFrequency: 1,
+    columnFrequency: 10,
   });
 
+  // Main loop
   var loop = function() {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    jumper.draw(0, 0);
+    jumper.draw();
   };
+  setInterval(loop, 20);
 
-  setInterval(loop, 200);
+  // Event Handling
+  var jump = jumper.jump.bind(jumper);
+  $(window).keypress(jump);
+  $(window).click(jump);
 });
