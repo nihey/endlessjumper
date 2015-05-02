@@ -1,4 +1,4 @@
-import {Jumper} from 'entities';
+import {Jumper, Block} from 'entities';
 
 $(document).ready(function() {
   var canvas = document.getElementById('canvas');
@@ -17,6 +17,7 @@ $(document).ready(function() {
     columns: 3,
     rowIndex: 2,
     columnFrequency: 10,
+    blocks: [new Block({canvas: canvas, x: 40, y: 300, width: 8})]
   });
 
   // Main loop
