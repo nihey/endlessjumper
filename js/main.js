@@ -1,4 +1,5 @@
-import {Jumper, Block} from 'entities';
+import {Jumper, Block, BlockSpawner} from 'entities';
+
 
 $(document).ready(function() {
   var canvas = document.getElementById('canvas');
@@ -10,6 +11,18 @@ $(document).ready(function() {
   onResize();
   $(window).resize(onResize);
 
+  var spawner = new BlockSpawner({
+    spawnChance: 0.2,
+    spawnable: [new Block({canvas: canvas, width: 8})],
+    blocks: [new Block({canvas: canvas, y: 400, width: canvas.width / 32})],
+    boundaries: {
+      x: canvas.width,
+      y: canvas.height / 2,
+      width: 300,
+      height: canvas.height / 2,
+    }
+  });
+
   var jumper = new Jumper({
     canvas: canvas,
     image: document.getElementById('jumper'),
@@ -17,14 +30,18 @@ $(document).ready(function() {
     columns: 3,
     rowIndex: 2,
     columnFrequency: 10,
-    blocks: [new Block({canvas: canvas, x: 40, y: 300, width: 8}),
-             new Block({canvas: canvas, x: 340, y: 100, width: 8})]
   });
 
   // Main loop
   var loop = function() {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+    // Attach spawner blocks to the jumper
+    jumper.blocks = spawner.blocks;
     jumper.draw();
+
+    // Try to spawn blocks
+    spawner.run();
   };
   setInterval(loop, 20);
 
