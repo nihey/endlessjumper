@@ -5,6 +5,7 @@ var Entities = {};
 Entities.Jumper = class Jumper {
   constructor(options) {
     this.sprite = new Sprite(options);
+    this.columnFrequency = options.columnFrequency || 0;
 
     this.blocks = options.blocks || [];
 
@@ -36,6 +37,7 @@ Entities.Jumper = class Jumper {
         // FIXME this only handles collisions that come from the bottom
         this.y = block.y - this.height;
         this.speed.y = 0;
+        this.sprite.columnFrequency = this.columnFrequency;
       }
     });
 
@@ -63,6 +65,8 @@ Entities.Jumper = class Jumper {
 
   jump() {
     this.speed.y = -900;
+    this.sprite.columnFrequency = 0;
+    this.sprite.columnIndex = 2;
   }
 }
 
