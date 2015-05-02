@@ -14,10 +14,10 @@ Entities.Jumper = class Jumper {
     this.x = options.canvas.width / 7;
     this.y = options.y || 0;
 
-    this.width = 32;
+    this.width = 26;
     this.height = 32;
 
-    this.speed = {x: 0, y: 0};
+    this.speed = {x: 300, y: 0};
     this.gravity = options.gravity || 2800;
   }
 
@@ -29,16 +29,35 @@ Entities.Jumper = class Jumper {
 
     // The y movement difference
     var dy = this.speed.y * elapsed / 1000;
+    var dx = this.speed.x * elapsed / 1000;
 
     this.y += dy;
 
+    var revertBlocks = false;
     this.blocks.forEach(block => {
+      block.x -= dx;
       if (this._collides(block)) {
-        // FIXME this only handles collisions that come from the bottom
-        this.y = block.y - this.height;
-        this.speed.y = 0;
-        this.sprite.columnFrequency = this.columnFrequency;
+        this.y -= dy;
+        if(!this._collides(block)) {
+          var height = block.height;
+          if (this.y < block.y) {
+            height = -this.height;
+          }
+
+          this.y = block.y + height;
+          this.speed.y = 0;
+          this.sprite.columnFrequency = this.columnFrequency;
+          return;
+        }
+
+        this.y += dy;
+        // FIXME Only handles front collisions
+        revertBlocks = this.x + this.width - block.x;
       }
+    });
+
+    revertBlocks && this.blocks.forEach(block => {
+      block.x += revertBlocks;
     });
 
     this.timer.reset();

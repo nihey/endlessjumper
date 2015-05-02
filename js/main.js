@@ -17,7 +17,8 @@ $(document).ready(function() {
     columns: 3,
     rowIndex: 2,
     columnFrequency: 10,
-    blocks: [new Block({canvas: canvas, x: 40, y: 300, width: 8})]
+    blocks: [new Block({canvas: canvas, x: 40, y: 300, width: 8}),
+             new Block({canvas: canvas, x: 340, y: 100, width: 8})]
   });
 
   // Main loop
