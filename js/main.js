@@ -4,12 +4,14 @@ import {Jumper, Block, BlockSpawner} from 'entities';
 function reset() {
   var canvas = document.getElementById('canvas');
 
-  var onResize = function() {
-    canvas.width = $('#canvas').width();
-    canvas.height = $('#canvas').height();
-  };
-  onResize();
-  $(window).resize(onResize);
+  // XXX Workaround to make the canvas be 800px maximum wide or fit the device
+  // width if it is smaller
+  canvas.width = Math.min(800, $(window).width());
+  canvas.height = canvas.width * 9 / 16;
+  $(canvas).css({
+    width: canvas.width,
+    height: canvas.height,
+  })
 
   var spawner = new BlockSpawner({
     spawnChance: 0.2,
@@ -63,7 +65,7 @@ function reset() {
   // Event Handling
   var jump = jumper.jump.bind(jumper);
   $(window).keypress(jump);
-  $(window).click(jump);
+  $(window).on('touchstart', jump);
 };
 
 $(document).ready(reset);
