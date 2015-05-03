@@ -27,6 +27,9 @@ Entities.Jumper = class Jumper extends Collidable {
     this.width = 26;
     this.height = 32;
 
+    this.currentJumps = 0;
+    this.maxJumps = 2;
+
     this.speed = {x: 400, y: 0};
     this.gravity = options.gravity || 2800;
   }
@@ -57,6 +60,7 @@ Entities.Jumper = class Jumper extends Collidable {
           this.y = block.y + height;
           this.speed.y = 0;
           this.sprite.columnFrequency = this.columnFrequency;
+          this.currentJumps = 0;
           return;
         }
 
@@ -86,7 +90,12 @@ Entities.Jumper = class Jumper extends Collidable {
   }
 
   jump() {
+    if (this.currentJumps == this.maxJumps) {
+      return;
+    }
+
     this.speed.y = -900;
+    this.currentJumps += 1;
     this.sprite.columnFrequency = 0;
     this.sprite.columnIndex = 2;
   }
