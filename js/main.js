@@ -1,7 +1,7 @@
 import {Jumper, Block, BlockSpawner} from 'entities';
 
 
-$(document).ready(function() {
+function reset() {
   var canvas = document.getElementById('canvas');
 
   var onResize = function() {
@@ -42,6 +42,7 @@ $(document).ready(function() {
   });
 
   // Main loop
+  var id = null;
   var loop = function() {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
@@ -51,11 +52,18 @@ $(document).ready(function() {
 
     // Try to spawn blocks
     spawner.run();
+
+    if (jumper.y > (canvas.height + 50)) {
+      clearInterval(id);
+      setTimeout(reset, 1);
+    }
   };
-  setInterval(loop, 20);
+  id = setInterval(loop, 20);
 
   // Event Handling
   var jump = jumper.jump.bind(jumper);
   $(window).keypress(jump);
   $(window).click(jump);
-});
+};
+
+$(document).ready(reset);
