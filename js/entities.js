@@ -27,7 +27,7 @@ Entities.Jumper = class Jumper extends Collidable {
     this.width = 26;
     this.height = 32;
 
-    this.speed = {x: 300, y: 0};
+    this.speed = {x: 400, y: 0};
     this.gravity = options.gravity || 2800;
   }
 
@@ -103,6 +103,8 @@ Entities.Block = class Block extends Collidable {
     this.width = (options.width * 32) || 0;
     this.height = (options.height * 32) || 320;
 
+    this.image = options.image;
+
     this.chance = options.chance || 1;
 
     this.context = options.canvas.getContext('2d');
@@ -113,7 +115,7 @@ Entities.Block = class Block extends Collidable {
   }
 
   draw() {
-    this.context.fillRect(this.x, this.y, this.width, this.height)
+    this.context.drawImage(this.image, this.x, this.y)
   }
 }
 
@@ -124,8 +126,8 @@ Entities.BlockSpawner = class BlockSpawner {
     // Where can the block spawn?
     this.boundaries = options.boundaries;
 
-    // Blocks cannot spawn unless safezone is clear
-    this.safezone = options.safezone || options.boundaries;
+    // Blocks cannot spawn unless all blocks are beyond safeline
+    this.safeline = options.safeline || options.boundaries.x;
 
 
     // From where the blocks can start to be destroyed
@@ -144,7 +146,7 @@ Entities.BlockSpawner = class BlockSpawner {
   _spawnable() {
     var spawnable = true;
     this.blocks.forEach(block => {
-      spawnable = spawnable && (!block.collides(this.safezone));
+      spawnable = spawnable && ((block.x + block.width) < this.safeline);
     });
     return spawnable
   }
