@@ -1,6 +1,9 @@
 import {Jumper, Block, BlockSpawner} from 'entities';
 
 
+// Initialize highscore
+localStorage['highscore'] = localStorage['highscore'] || 0;
+
 function reset() {
   var canvas = document.getElementById('canvas');
 
@@ -47,6 +50,13 @@ function reset() {
   var id = null;
   var loop = function() {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+    // Display the score
+    $('#score').text(parseInt(jumper.score));
+
+    // Update highscore, and display it
+    localStorage['highscore'] = Math.max(parseInt(jumper.score), localStorage['highscore']);
+    $('#highscore').text(localStorage['highscore'] || 0);
 
     // Attach spawner blocks to the jumper
     jumper.blocks = spawner.blocks;

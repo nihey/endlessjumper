@@ -32,6 +32,8 @@ Entities.Jumper = class Jumper extends Collidable {
 
     this.speed = {x: 400, y: 0};
     this.gravity = options.gravity || 2800;
+
+    this.score = 0;
   }
 
   _applyGravity() {
@@ -73,6 +75,7 @@ Entities.Jumper = class Jumper extends Collidable {
     revertBlocks && this.blocks.forEach(block => {
       block.x += revertBlocks;
     });
+    this.score += (revertBlocks ? revertBlocks : dx) / 32;
 
     this.timer.reset();
   }
