@@ -155,14 +155,6 @@ Entities.BlockSpawner = class BlockSpawner {
     });
   }
 
-  _spawnable() {
-    var spawnable = true;
-    this.blocks.forEach(block => {
-      spawnable = spawnable && ((block.x + block.width) < this.safeline);
-    });
-    return spawnable
-  }
-
   /*
    *  Public API
    */
@@ -178,9 +170,8 @@ Entities.BlockSpawner = class BlockSpawner {
   }
 
   run() {
-    if (this._spawnable()) {
-      this.spawn();
-    }
+    var spawnable = this.blocks.every(block => block.x + block.width < this.safeline);
+    spawnable && this.spawn();
 
     this.blocks = this.blocks.filter(block => {
       return (block.x + block.width) > this.limit;
